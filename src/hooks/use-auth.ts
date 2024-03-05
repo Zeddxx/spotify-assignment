@@ -7,7 +7,7 @@ export default function useAuth(code: string) {
   const [accessToken, setAccessToken] = useState();
   const [refreshToken, setRefreshToken] = useState();
   const [expiresIn, setExpiresIn] = useState<number>();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     axios
@@ -26,9 +26,9 @@ export default function useAuth(code: string) {
   }, [code, dispatch]);
 
   useEffect(() => {
-    if(!accessToken) return;
+    if (!accessToken) return;
     dispatch(setToken(accessToken));
-  }, [accessToken, dispatch])
+  }, [accessToken, dispatch]);
 
   useEffect(() => {
     if (!refreshToken || !expiresIn) return;
@@ -37,11 +37,12 @@ export default function useAuth(code: string) {
       axios
         .post("https://spotify-backend-1ri0.onrender.com/refresh", {
           refreshToken,
+          
         })
         .then((res) => {
           setAccessToken(res.data.accessToken);
           setExpiresIn(res.data.expiresIn);
-          dispatch(setToken(res.data.accessToken))
+          dispatch(setToken(res.data.accessToken));
           window.location.assign(`/?accessToken=${res.data.accessToken}`);
         })
         .catch(() => {

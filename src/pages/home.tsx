@@ -9,14 +9,26 @@ import { useNavigate } from "react-router-dom";
 import { RootState } from "../redux/root-state";
 
 const Home = () => {
-  const { token } = useSelector((state: RootState) => state.token);
+    const dispatch = useDispatch();
+    const { token } = useSelector((state: RootState) => state.token);
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const token = hash.substring(1).split("&")[0].split("=")[1];
+      if (token) {
+        console.log({ token });
+        dispatch(setToken(token));
+      }
+    }
+    document.title = "Spotify";
+  }, [dispatch]);
   const {
     data: featured,
     isLoading: isPlaylistLoading,
     error,
   } = useGetUserPlaylistQuery(token!);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!isPlaylistLoading) {
@@ -56,3 +68,12 @@ const Home = () => {
   );
 };
 export default Home;
+
+// const Home = () => {
+//   const dispatch = useDispatch();
+//   const { token } = useSelector((state: RootState) => state.token)
+//   console.log({ token });
+  
+//   return <div>Home</div>;
+// };
+// export default Home;

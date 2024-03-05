@@ -21,4 +21,4 @@ const Callback = () => {
     </div>
   )
 }
-export default Callback
+export default Callback;
