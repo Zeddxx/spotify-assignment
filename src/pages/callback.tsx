@@ -8,7 +8,10 @@ const Callback = () => {
   const { accessToken } = useAuth(code!);
   const dispatch = useDispatch()
 
-  dispatch(setToken({ token: accessToken }))
+  if(typeof accessToken === "string"){
+    dispatch(setToken(accessToken))
+  }
+
   return (
     <div>
         {code}
