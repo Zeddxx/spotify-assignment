@@ -2,15 +2,17 @@ import { Outlet } from "react-router-dom";
 import LeftSideBar from "../components/sidebar/left-sidebar";
 // import { useSelector } from "react-redux";
 import Navbar from "../components/navbar";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 // import { RootState } from "../redux/root-state";
 
 const RootLayout = () => {
   // const { token } = useSelector((state: RootState) => state.token);
-
-
+  const { isMenuOpen } = useSelector((state: RootState) => state.setOffset)
+  console.log({ isMenuOpen });
   return (
     <div className="flex w-full relative">
-      <div className="max-w-xs lg:max-w-md w-full flex-shrink-0">
+      <div className={`max-w-xs lg:max-w-md flex-shrink-0 overflow-hidden duration-300 ${isMenuOpen ? 'w-full' : 'w-0 md:w-full'}`}>
         <LeftSideBar />
       </div>
       <section className="h-full relative w-full rounded-md overflow-x-hidden">

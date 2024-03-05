@@ -6,7 +6,6 @@ import { setOffset } from "../redux/pagination";
 const Pagination = ({ isPrevious, isNext } : { isPrevious: boolean, isNext: boolean }) => {
   const { offset } = useSelector((state: RootState) => state.setOffset);
   const dispatch = useDispatch();
-  console.log({ isPrevious, isNext });
     
   const handlePaginate = (type: "next" | "prev") => {
     if (type === "next") {

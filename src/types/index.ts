@@ -78,7 +78,7 @@ export type ISearchedTracks = {
         album: {
           album_type: string;
           artists: IArtists[];
-          avaliable_markets: string[];
+          available_markets: string[];
           href: string;
           id: string;
           images: Image[];
@@ -88,7 +88,7 @@ export type ISearchedTracks = {
           type: string;
         };
         artists: IArtists[];
-        avalaible_markets: string[];
+        available_markets: string[];
         id: string;
         name: string;
         popularity: number;
@@ -183,7 +183,7 @@ export type IDefaultTrack = {
         album: {
           album_type: string
           artists: IArtists[]
-          avaliable_markets: string[]
+          available_markets: string[]
           href: string
           id: string
           images: Image[]
@@ -193,7 +193,7 @@ export type IDefaultTrack = {
           type: string
         },
         artists: IArtists[]
-        avalaible_markets: string[]
+        available_markets: string[]
         id: string
         name: string
         popularity: number

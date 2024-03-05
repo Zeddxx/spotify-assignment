@@ -5,7 +5,9 @@ import Pagination from "../components/pagination";
 
 const CustomSearch = () => {
   const { token } = useSelector((state: RootState) => state.token);
-  const { offset } = useSelector((state: RootState) => state.setOffset);
+  const { offset, view: flexView, selectedCountries } = useSelector(
+    (state: RootState) => state.setOffset
+  );
   const { data, isLoading, isError } = useGetDefaultSearchQuery({
     search: "rock",
     token: token,
@@ -13,12 +15,17 @@ const CustomSearch = () => {
     offset: offset,
   });
 
-  if(isLoading) {
-    return <p>Loading...</p>
+  const filteredTracks = data?.tracks?.items?.filter((item) => {
+    const availableCountries = item.available_markets || [];
+    return selectedCountries.every((country) => availableCountries.includes(country))
+  })
+
+  if (isLoading) {
+    return <p>Loading...</p>;
   }
 
-  if(isError) {
-    return <p>Error</p>
+  if (isError) {
+    return <p>Error</p>;
   }
 
   return (
@@ -31,22 +38,35 @@ const CustomSearch = () => {
         </select>
       </div>
 
-      <div className="grid grid-cols-5 gap-5">
-        {data?.tracks.items.map((item) => (
-          <div key={item.id} className="p-2 bg-black rounded-lg">
-            <div className="rounded-lg overflow-hidden">
+      <div
+        className={`grid ${
+          flexView === "grid"
+            ? "xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 grid-cols-2"
+            : "grid-cols-1"
+        } gap-5 mt-4`}
+      >
+        {filteredTracks?.map((item) => (
+          <div
+            key={item.id}
+            className={`${
+              flexView === "grid" ? "h-auto" : "flex w-full gap-3"
+            }`}
+          >
+            <div className={`bg-neutral-800 rounded-lg overflow-hidden max-h-52 h-full ${flexView !== 'grid' && 'min-w-52'} min-h-52`}>
               <img
                 src={item.album.images[0].url}
                 alt={item.album.name}
                 className="h-full w-full object-cover"
               />
             </div>
-            <h2 className="mt-3 text-base text-stone-200 truncate">
-              {item.album.name}
-            </h2>
-            <p className="text-sm font-semibold text-stone-400">
-              {item.album.type}
-            </p>
+            <div className="truncate">
+              <h2 className="mt-3 text-base text-stone-200 truncate">
+                {item.album.name}
+              </h2>
+              <p className="text-sm font-semibold text-stone-400">
+                {item.album.type}
+              </p>
+            </div>
           </div>
         ))}
       </div>
