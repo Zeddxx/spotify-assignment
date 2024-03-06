@@ -6,6 +6,7 @@ interface InitialState {
     isMenuOpen: boolean;
     view: string;
     selectedCountries: string[]
+    isFilterOpen: boolean
 }
 
 const initialState: InitialState = {
@@ -13,10 +14,11 @@ const initialState: InitialState = {
     type: 'artist',
     isMenuOpen: true,
     view: 'grid',
-    selectedCountries: []
+    selectedCountries: [],
+    isFilterOpen: false
 }
 
-const selectOffset = createSlice({
+const selectUtility = createSlice({
     name: 'pagination',
     initialState,
     reducers: {
@@ -40,9 +42,12 @@ const selectOffset = createSlice({
         },
         clearSelectedCountries: (state) => {
             state.selectedCountries = []
+        },
+        setFilterToggle: (state, action: PayloadAction<boolean>) => {
+            state.isFilterOpen = action.payload
         }
     }
 })
 
-export const { setOffset, setTrackTypes, setIsMenuOpen, setView, addCountry, removeCountry, clearSelectedCountries } = selectOffset.actions
-export default selectOffset.reducer;
+export const { setOffset, setTrackTypes, setIsMenuOpen, setView, addCountry, removeCountry, clearSelectedCountries, setFilterToggle } = selectUtility.actions
+export default selectUtility.reducer;

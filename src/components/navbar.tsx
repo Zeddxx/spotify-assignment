@@ -3,27 +3,29 @@ import {
   HiOutlineChevronLeft,
   HiOutlineMagnifyingGlass,
 } from "react-icons/hi2";
-import IconButton from "./icon-button";
 import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
-import { useGetUserProfileQuery } from "../redux/apis/spotify-api";
+import { RootState } from "@/redux/store";
+import { useGetUserProfileQuery } from "@/redux/apis/spotify-api";
 import { ChangeEvent, useEffect, useState } from "react";
 import { HiOutlineChevronRight } from "react-icons/hi";
 import { RxDoubleArrowRight } from "react-icons/rx";
-import { setIsMenuOpen, setTrackTypes, setView } from "../redux/pagination";
+import { setIsMenuOpen, setTrackTypes, setView } from "@/redux/utilities";
 import { useDispatch } from "react-redux";
-import { chooseTypes } from "../constants";
+import { chooseTypes } from "@/constants";
+import { Input } from "@/components/ui/input";
+import { Button } from "./ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { LayoutGrid, LayoutList } from "lucide-react";
 
 const Navbar = () => {
   const { pathname } = useLocation();
   const deconstructedPathname = "/" + pathname.split("/")[1];
   const { token } = useSelector((state: RootState) => state.token);
-  const { type: currentType } = useSelector(
-    (state: RootState) => state.setOffset
+  const { type: currentType, isMenuOpen } = useSelector(
+    (state: RootState) => state.selectUtility
   );
   const [searchValue, setSearchValue] = useState("");
   const { data: user, error } = useGetUserProfileQuery(token!);
-  const { isMenuOpen } = useSelector((state: RootState) => state.setOffset);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -54,48 +56,53 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`sticky top-0 z-[999] py-4 rounded-tr-md rounded-tl-md bg-black backdrop-blur-md px-2`}
+      className={`sticky top-0 z-[999] py-4 bg-muted backdrop-blur-md w-full px-2`}
     >
       <div className="flex justify-between items-center">
         <div className="flex gap-x-3 items-center">
-          <IconButton
-            type="icon"
+          <Button
+            size="icon"
             onClick={handleOpen}
+            variant="outline"
             title="Open menu"
-            className="p-2 block md:hidden hover:bg-stone-800"
+            className="grid place-items-center md:hidden rounded-full"
           >
             <RxDoubleArrowRight
               className={`duration-300 ${
                 isMenuOpen ? "-rotate-180" : "-rotate-0"
               }`}
             />
-          </IconButton>
-          <IconButton
-            type="icon"
+          </Button>
+          <Button
+            size="icon"
             title="Go Back"
-            className="hover:bg-stone-900/60 bg-black/20 p-2 rounded-full duration-150 h-fit"
+            disabled
+            variant="outline"
+            className="rounded-full duration-150 grid place-items-center"
           >
             <HiOutlineChevronLeft className="text-stone-500 h-5 w-5" />
-          </IconButton>
+          </Button>
           {deconstructedPathname === "/search" ? (
             <div className="relative">
-              <input
+              <Input
                 value={searchValue}
                 onChange={handleSearchChange}
-                className="rounded-full peer h-11 bg-stone-800 text-sm pl-10"
+                placeholder="Search artist track.."
+                className="rounded-full text-sm pl-10"
               />
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 peer-focus:text-white">
-                <HiOutlineMagnifyingGlass className="h-5 w-5 text-white/50" />
+              <span className="absolute left-3 top-1/2 -translate-y-1/2">
+                <HiOutlineMagnifyingGlass className="h-5 w-5 text-muted-foreground" />
               </span>
             </div>
           ) : (
-            <IconButton
-              type="icon"
+            <Button
+              size="icon"
               disabled
-              className="hover:bg-stone-900/60 bg-black/20 p-2 rounded-full duration-150 h-fit"
+              variant="outline"
+              className="rounded-full duration-150 grid place-items-center"
             >
               <HiOutlineChevronRight className="text-stone-500 h-5 w-5" />
-            </IconButton>
+            </Button>
           )}
         </div>
 
@@ -105,37 +112,52 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col justify-between items-center">
         {searchValue && (
-          <div className="flex gap-3 flex-wrap mt-4">
+          <div className="flex gap-3 flex-wrap mt-4 order-2">
             {chooseTypes.map((type) => (
-              <IconButton
-                type="button"
-                className={`px-7 py-2 rounded-full capitalize text-xs tracking-wide border font-semibold border-stone-800 ${
+              <Button
+              size="sm"
+              variant="outline"
+                className={`px-7 rounded-full capitalize text-xs tracking-wide border font-semibold ${
                   currentType === type.name
-                    ? "bg-white text-black hover:bg-gray-100"
-                    : "bg-neutral-900 hover:bg-neutral-900/50"
+                    ? "bg-primary text-secondary hover:bg-primary/90 hover:text-white"
+                    : ""
                 }`}
                 onClick={() => handleChooseType(type.id)}
                 key={type.id}
               >
                 {type.name}
-              </IconButton>
+              </Button>
             ))}
           </div>
         )}
 
-        <div className="flex gap-4">
-          {currentType === "track" && <p>Popularity</p>}
-          <select
-            name="view"
-            onChange={(e) => handleView(e.target.value)}
-            id="view"
+        <div className="gap-4 mt-3 justify-between lg:justify-normal w-full items-center flex">
+          <Select
+          onValueChange={handleView}
           >
-            <option value="grid">Grid</option>
-            <option value="list">List</option>
-          </select>
+            <SelectTrigger className="w-[8rem] z-[9999]">
+              <SelectValue placeholder="View" />
+            </SelectTrigger>
+            <SelectContent align="end" className="z-[9999]">
+              <SelectItem value="grid">
+              <span className="flex items-center font-semibold">
+              <LayoutGrid className="h-4 w-5 mr-1" />
+                Grid
+              </span>
+              </SelectItem>
+              <SelectItem value="List">
+              <span className="flex items-center font-semibold">
+              <LayoutList className="h-4 w-5 mr-1" />
+                List
+              </span>
+              </SelectItem>
+            </SelectContent>
+          </Select>
+        {currentType === "track" && <p>Popularity</p>}
         </div>
+
       </div>
     </nav>
   );

@@ -4,13 +4,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useGetSearchQuery } from "../redux/apis/spotify-api";
 import { RootState } from "../redux/store";
 import ArtistTracks from "../components/artist-tracks";
+import { cn } from "@/lib/utils";
 
 const Search = () => {
   const { id } = useParams();
 
   const { token } = useSelector((state: RootState) => state.token);
   const { type, view: flexView, selectedCountries } = useSelector(
-    (state: RootState) => state.setOffset
+    (state: RootState) => state.selectUtility
   );
 
   const navigate = useNavigate();
@@ -20,8 +21,6 @@ const Search = () => {
     token: token,
     type: type,
   });
-
-  console.log({ data, type });
 
   useEffect(() => {
     if (!token) navigate("/login");
@@ -45,25 +44,27 @@ const Search = () => {
   // console.log({ highPopularity, medPopularity, lowPopularity });
   
   return (
-    <div className="max-w-screen-2xl h-auto mx-auto">
+    <div className="max-w-screen-2xl mx-auto px-2 overflow-hidden">
       {type === "artist" && (
         <>
           <div className="">
             {data && (
               <div className="py-2 px-2 mt-4">
                 <h1 className="font-bold text-2xl mb-3">Top result</h1>
-                <div className="bg-black rounded-lg px-4 flex flex-col items-center py-6 h-64 max-w-[14rem]">
-                  <div className="h-28 w-28 rounded-full overflow-hidden">
+                <div className="bg-muted border rounded-lg px-4 flex flex-col items-center py-6 h-64 max-w-[14rem]">
+                  <div className={cn(
+                    "rounded-full overflow-hidden flex-shrink-0 h-32 w-32"
+                  )}>
                     <img
                       src={data?.artists?.items[0]?.images[0].url}
                       className="h-full w-full object-cover"
                       alt={data?.artists?.items[0]?.name}
                     />
                   </div>
-                  <h2 className="text-xl font-bold mt-4">
+                  <h2 className="text-2xl font-bold mt-4">
                     {data?.artists?.items[0]?.name}
                   </h2>
-                  <p className="text-xs font-semibold  capitalize text-stone-400">
+                  <p className="text-sm font-semibold  capitalize text-stone-400">
                     {data?.artists?.items[0]?.type}
                   </p>
                 </div>
@@ -91,18 +92,21 @@ const Search = () => {
           {filteredTracks?.map((item) => (
             <div
               className={`${
-                flexView === "grid" ? "" : "max-h-40 flex w-full gap-2"
+                flexView === "grid" ? "" : "flex w-full gap-x-2"
               }`}
               key={item.id}
             >
-              <div className="bg-neutral-800 rounded-lg overflow-hidden">
+              <div className={cn(
+                "bg-neutral-800 rounded-lg overflow-hidden flex-shrink-0",
+                flexView !== 'grid' && 'h-20 w-20'
+              )}>
                 <img
                   src={item.album.images[0].url}
                   alt={item.album.name}
                   className="h-full w-fit object-contain"
                 />
               </div>
-              <div className="">
+              <div className="truncate">
                 <h3 className="text-base truncate">{item.name}</h3>
                 <p className="text-sm text-stone-400 capitalize">{item.type}</p>
               </div>
@@ -126,7 +130,10 @@ const Search = () => {
               }`}
               key={item.id}
             >
-              <div className="bg-neutral-800 rounded-lg overflow-hidden">
+              <div className={cn(
+                "bg-neutral-800 rounded-lg overflow-hidden flex-shrink-0",
+                flexView !== 'grid' && 'h-20 w-20'
+              )}>
                 <img
                   src={item.images[0]?.url}
                   alt={item.name}
@@ -157,7 +164,10 @@ const Search = () => {
               }`}
               key={item.id}
             >
-              <div className={`bg-neutral-800 rounded-lg overflow-hidden max-h-52 h-full ${flexView !== 'grid' && 'min-w-52'} min-h-52`}>
+              <div className={cn(
+                "bg-neutral-800 rounded-lg overflow-hidden flex-shrink-0",
+                flexView !== 'grid' && 'h-20 w-20'
+              )}>
                 <img className="w-full h-full object-cover" src={item.images[0].url} alt={item.name} />
               </div>
               <div className="truncate">
@@ -169,7 +179,7 @@ const Search = () => {
           ))}
         </div>
       )}
-    </div>
+      </div>
   );
 };
 export default Search;

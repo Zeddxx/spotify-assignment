@@ -1,44 +1,25 @@
 import { Link, useLocation } from "react-router-dom";
-import { NavList, availableMarkets } from "../../constants";
-import { ChangeEvent } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
-import { addCountry, clearSelectedCountries, removeCountry } from "../../redux/pagination";
+import { NavList } from "../../constants";
+import AvailableMarkets from "../markets/available-markets";
 
 const LeftSideBar = () => {
   const { pathname } = useLocation();
-  // const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
-  const dispatch = useDispatch()
-  const { selectedCountries } = useSelector((state: RootState) => state.setOffset)
-  console.log({ selectedCountries });
 
-  const handleCountryChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const countryCode = event.target.value;
-    if (selectedCountries.includes(countryCode)) {
-      dispatch(removeCountry(countryCode));
-    } else {
-      dispatch(addCountry(countryCode));
-    }
-  };
   const constructPath /** will reconstruct the @types { /search } */ =
     "/" + pathname.split("/")[1];
 
-  const resetSelectedCountries = () => {
-   dispatch(clearSelectedCountries())
-  }
 
   return (
-    <aside className="max-w-xs sticky top-2 z-[9999] lg:max-w-md px-4 py-2 w-full flex-shrink-0">
+    <aside className="max-w-xs sticky overflow-x-hidden top-2 left-0 z-[9999] lg:max-w-md px-4 py-2 w-full flex-shrink-0">
       <div className="">
-        <ul className="space-y-6 bg-stone-800/40 border border-stone-900 p-4 rounded-md">
+        <ul className="space-y-6 border border-muted bg-slate-50 p-4 rounded-md">
           {NavList.map((item) => (
             <li
               key={item.name}
               className={`${
                 constructPath === item.to
-                  ? "text-white"
-                  : "text-stone-400 hover:text-white duration-300 hover:underline"
+                  ? "text-black hover:underline"
+                  : "text-muted-foreground hover:text-black duration-300 hover:underline"
               }`}
             >
               <Link
@@ -56,22 +37,14 @@ const LeftSideBar = () => {
           ))}
         </ul>
         
-        <div className="grid grid-cols-8 gap-3 h-full mt-5 px-2 overflow-y-scroll max-h-96">
-          {availableMarkets.map((countryCode, index) => (
-            <div className="flex gap-2 group" key={index}>
-              <input
-                type="checkbox"
-                id={countryCode}
-                name="country"
-                value={countryCode}
-                checked={selectedCountries.includes(countryCode)}
-                onChange={handleCountryChange}
-              />
-              <label className={`text-sm ${selectedCountries.includes(countryCode) && 'text-white'} group-hover:text-white duration-300 text-stone-500`} htmlFor={countryCode}>{countryCode}</label>
-            </div>
-          ))}
+        {/* Filter The tracks by Available Markets/country */}
+        <div className="my-4">
+          <AvailableMarkets />
         </div>
-        <button className="w-full  bg-neutral-900 border border-stone-800 py-2 rounded-md mt-3" onClick={resetSelectedCountries}>reset</button>
+
+        <div className="mt-4">
+          <p className="text-muted-foreground truncate text-center text-sm">Market filter only works for searched tracks.</p>
+        </div>
       </div>
     </aside>
   );

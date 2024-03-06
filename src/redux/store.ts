@@ -1,15 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import tokenReducer from "./token"
 import { spotifyApi } from "./apis/spotify-api";
-import userProfileReducer from "./user-profile"
-import selectOffset from './pagination'
+import selectUtility from './utilities'
 
 export const store = configureStore({
     reducer: {
         [spotifyApi.reducerPath]: spotifyApi.reducer,
         token: tokenReducer,
-        userProfile: userProfileReducer,
-        setOffset: selectOffset
+        selectUtility: selectUtility
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(spotifyApi.middleware)
 })

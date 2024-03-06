@@ -1,3 +1,13 @@
+/**
+ * @description I found this way much easier to get a token and send it to the $route: '/'
+ * @returns {string} token: #some_random_token_value  for 3600s which is (1hour)
+ */
+import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
+
+ 
+
+
 const handleClick = async () => {
   const client_id = "3b04e348702d47f28c3fff0c6964e784";
   const redirect_uri = "http://localhost:5173/";
@@ -16,11 +26,11 @@ const handleClick = async () => {
   )}&response_type=token&show_dialog=true`;
 };
 
-const LoginButton = () => {
+const LoginButton = ({ className } : { className: string }) => {
   return (
-    <button onClick={handleClick}>
-      login
-    </button>
+    <Button className={cn(className)} onClick={handleClick}>
+      Login
+    </Button>
   )
 };
 export default LoginButton;

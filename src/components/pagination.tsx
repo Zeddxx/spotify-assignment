@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { useDispatch } from "react-redux";
-import { setOffset } from "../redux/pagination";
+import { setOffset } from "../redux/utilities";
 
 const Pagination = ({ isPrevious, isNext } : { isPrevious: boolean, isNext: boolean }) => {
-  const { offset } = useSelector((state: RootState) => state.setOffset);
+  const { offset } = useSelector((state: RootState) => state.selectUtility);
   const dispatch = useDispatch();
     
   const handlePaginate = (type: "next" | "prev") => {

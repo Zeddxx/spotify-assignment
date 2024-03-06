@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils"
 import { useGetArtistTopTracksQuery } from "../redux/apis/spotify-api"
 
 const ArtistTracks = ({ artistId, token, flexView } : { artistId: string, token: string, flexView: string }) => {
@@ -17,7 +18,10 @@ const ArtistTracks = ({ artistId, token, flexView } : { artistId: string, token:
             <div className={`${
               flexView === "grid" ? "" : "max-h-40 flex w-full gap-2"
             }`} key={item.id}>
-                <div className="rounded-lg flex-shrink-0 overflow-hidden">
+                <div className={cn(
+                "bg-neutral-800 rounded-lg overflow-hidden flex-shrink-0",
+                flexView !== 'grid' && 'h-20 w-20'
+              )}>
                     <img className="w-fit h-full object-contain" src={item.album.images[0].url} alt={item.name} />
                 </div>
                 <div className="truncate">

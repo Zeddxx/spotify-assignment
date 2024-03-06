@@ -6,7 +6,7 @@ import Pagination from "../components/pagination";
 const CustomSearch = () => {
   const { token } = useSelector((state: RootState) => state.token);
   const { offset, view: flexView, selectedCountries } = useSelector(
-    (state: RootState) => state.setOffset
+    (state: RootState) => state.selectUtility
   );
   const { data, isLoading, isError } = useGetDefaultSearchQuery({
     search: "rock",
