@@ -1,30 +1,56 @@
-# React + TypeScript + Vite
+## Spotify UI Assignment
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is just an UI/UX of spotify, created with React, Typescript, Vite, Redux Management, Redux Toolkit Query, SpotifyAPI, ShadCN UI Library.
 
-Currently, two official plugins are available:
+<hr />
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Features
+- Use can search for tracks, artist, album, playlists.
+- Custom view selection between
+  - Grid (default).
+  - List.
+- Collapseable menu for mobile.
+- Filter by popularity:
+  - None (default).
+  - High (above 70).
+  - Medium (above 50 | below 70).
+  - Low (above 30 | below 50).
+- Different tags:
+  - Albums.
+  - Playlists.
+  - Tracks.
+  - Artists.
 
-## Expanding the ESLint configuration
+<hr />
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+# Installation
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+- Clone the repository
+  
+```bash
+    git clone https://github.com/Zeddxx/spotify-assignment.git
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- Go into the project
+
+```bash
+    cd spotify-assignment
+```
+
+- Install the ``npm`` package
+
+```bash
+    npm install
+```
+
+ - Run the project
+
+```bash
+    npm run dev
+```
+
+<hr />
+
+# THANKYOU
+
+<hr />
