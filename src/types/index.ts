@@ -92,6 +92,7 @@ export type ISearchedTracks = {
         id: string;
         name: string;
         popularity: number;
+        popularityLevel: string
         type: string;
       }
     ];

@@ -1,13 +1,16 @@
 import { Link, useLocation } from "react-router-dom";
-import { NavList } from "../../constants";
-import AvailableMarkets from "../markets/available-markets";
+import { NavList } from "@/constants";
+import AvailableMarkets from "@/components/markets/available-markets";
 
 const LeftSideBar = () => {
   const { pathname } = useLocation();
 
-  const constructPath /** will reconstruct the @types { /search } */ =
+   /** 
+    * will reconstruct the { /search }
+    * @working will work to know where the user is in route to set the links look active. 
+    */ 
+  const constructPath =
     "/" + pathname.split("/")[1];
-
 
   return (
     <aside className="max-w-xs sticky overflow-x-hidden top-2 left-0 z-[9999] lg:max-w-md px-4 py-2 w-full flex-shrink-0">
@@ -44,6 +47,8 @@ const LeftSideBar = () => {
 
         <div className="mt-4">
           <p className="text-muted-foreground truncate text-center text-sm">Market filter only works for searched tracks.</p>
+          <p className="text-muted-foreground truncate text-center text-sm">Please tap on search to search.</p>
+          <p className="text-muted-foreground truncate text-center text-sm">Popularity function will only works with track</p>
         </div>
       </div>
     </aside>

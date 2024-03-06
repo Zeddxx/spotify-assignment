@@ -1,3 +1,8 @@
+/**
+ * @implements a bunch of constants which can be changed from here to make changes on the page.
+ * @makes the webpage content easily editable.
+ */
+
 import { GoHome, GoHomeFill } from "react-icons/go";
 import {
   HiOutlineHashtag,

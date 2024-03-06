@@ -1,7 +1,11 @@
+/**
+ * @pagination i made it work but not had time to do so.
+ */
+
 import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
+import { RootState } from "@/redux/store";
 import { useDispatch } from "react-redux";
-import { setOffset } from "../redux/utilities";
+import { setOffset } from "@/redux/utilities";
 
 const Pagination = ({ isPrevious, isNext } : { isPrevious: boolean, isNext: boolean }) => {
   const { offset } = useSelector((state: RootState) => state.selectUtility);

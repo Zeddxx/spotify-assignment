@@ -1,3 +1,8 @@
+/**
+ * Tried to use debouncing but the api is way much faster.
+ */
+
+
 import { useEffect, useState } from "react";
 
 // https://codesandbox.io/s/react-query-debounce-ted8o?file=/src/useDebounce.js

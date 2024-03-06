@@ -11,9 +11,13 @@ const App = () => {
   return (
     <main className="h-max">
       <Routes>
+        {/* Login route /login */}
         <Route element={<Login />} path="/login" />
-        {/* <Route element={<Callback />} path="/callback" /> */}
 
+        {/* 
+          * Main routes or protected routes
+          * Still not all route are protected.
+        */}
         <Route element={<RootLayout />}>
           <Route index element={<Home />} path="/" />
           <Route element={<Search />} path="/search/:id" />
