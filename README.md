@@ -42,6 +42,12 @@ This is just an UI/UX of spotify, created with React, Typescript, Vite, Redux Ma
 ```bash
     npm install
 ```
+- Before running the project locally do this in `src/components/auth/login-button.tsx`
+comment the deployed link and uncomment the `localhost` link
+```bash
+// const redirect_uri = "https://spotify-assignment-two.vercel.app/";
+const redirect_uri = "http://localhost:5173/";
+```
 
  - Run the project
 
